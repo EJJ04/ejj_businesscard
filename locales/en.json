@@ -1,0 +1,14 @@
+{
+    "order_business_card": "Order Business Card",
+    "order_business_card_title": "Order Business Card | $250 each",
+    "front": "Front",
+    "back": "Back",
+    "number_of_cards": "Number of Business Cards",
+    "front_image_description": "Image URL - Image must be 450x255 pixels and from fivemanage.com!",
+    "back_image_description": "Image URL - Image must be 450x255 pixels and from fivemanage.com!",
+    "card_quantity_description": "Number of business cards you want to order",
+    "image_url_error": "Image URL must be from fivemanage.com",
+    "order_success": "You have ordered %d business cards for $%d",
+    "not_enough_money": "Not enough money",
+    "not_enough_money_description": "You don't have enough money to order %d business cards"
+}
