@@ -1,0 +1,14 @@
+{
+    "order_business_card": "Bestil businesscard",
+    "order_business_card_title": "Bestil businesscard | 250,- DKK stykket",
+    "front": "Front",
+    "back": "Bag",
+    "number_of_cards": "Antal businesscard",
+    "front_image_description": "Billed URL - Billedet skal være 450x255 pixels og fra fivemanage.com!",
+    "back_image_description": "Billed URL - Billedet skal være 450x255 pixels og fra fivemanage.com!",
+    "card_quantity_description": "Antal businesscard du vil bestille",
+    "image_url_error": "Billede URL, skal være fra fivemanage.com",
+    "order_success": "Du har bestilt %d businesscard for %d,- DKK",
+    "not_enough_money": "Ikke nok penge",
+    "not_enough_money_description": "Du har ikke nok penge til at bestille %d businesscard"
+}
