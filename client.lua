@@ -1,7 +1,5 @@
 lib.locale()
 
-ESX = exports["es_extended"]:getSharedObject()
-
 exports('businesscard', function(data, slot)
     local jsonData = json.encode(data)
 

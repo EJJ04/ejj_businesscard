@@ -21,7 +21,6 @@ server_scripts {
 
 shared_scripts {
     '@ox_lib/init.lua',
-    '@es_extended/imports.lua',
 }
 
 ui_page 'html/ui.html'

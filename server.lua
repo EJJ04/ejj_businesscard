@@ -1,54 +1,30 @@
 lib.locale()
 
-local ESX = nil
-local QBCore = nil
-
-if GetResourceState('es_extended') == 'started' then
-    ESX = exports["es_extended"]:getSharedObject()
-end
-
-if GetResourceState('qb-core') == 'started' then
-    QBCore = exports['qb-core']:GetCoreObject()
-end
-
 RegisterNetEvent('ejj_businesscard:businesscardbestilling')
 AddEventHandler('ejj_businesscard:businesscardbestilling', function(frontImage, backImage, amount)
-    local xPlayer = nil
-    local item = 'money'  
+    local playerSource = source
+    local item = 'money'
     local cost = 250 * amount
-    local moneyItem, playerSource, inventoryId = nil, nil, nil
+    local inventoryId = playerSource
+    local ox_inventory = exports.ox_inventory
 
-    if ESX then
-        xPlayer = ESX.GetPlayerFromId(source)
-        playerSource = xPlayer.source
-        inventoryId = playerSource
-        moneyItem = xPlayer.getInventoryItem(item)
-    elseif QBCore then
-        xPlayer = QBCore.Functions.GetPlayer(source)
-        playerSource = xPlayer.PlayerData.source
-        inventoryId = playerSource
-        moneyItem = xPlayer.Functions.GetItemByName(item)
-    end
-
+    local moneyItem = ox_inventory:GetItem(inventoryId, item)
+    
     if moneyItem and moneyItem.count >= cost then
-        if ESX then
-            xPlayer.removeInventoryItem(item, cost)
-        elseif QBCore then
-            xPlayer.Functions.RemoveItem(item, cost)
-        end
 
-        local item = 'businesscard' 
+        ox_inventory:RemoveItem(inventoryId, item, cost)
+
+        local cardItem = 'businesscard'
         local count = amount
-        local ox_inventory = exports.ox_inventory
 
         local metadata = {
             frontImage = frontImage,
             backImage = backImage,
         }
 
-        exports.ox_inventory:AddItem(inventoryId, item, count, metadata, nil, function(success, response)
+        ox_inventory:AddItem(inventoryId, cardItem, count, metadata, nil, function(success, response)
             if success then
-                local slot = ox_inventory:GetSlotForItem(inventoryId, item, nil)
+                local slot = ox_inventory:GetSlotForItem(inventoryId, cardItem, nil)
                 ox_inventory:SetMetadata(inventoryId, slot, metadata)
 
                 local notificationData = {
