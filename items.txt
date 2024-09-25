@@ -1,0 +1,11 @@
+ox_inventory -> data -> items.lua
+
+['businesscard'] = {
+	label = 'businesscard',
+	weight = 10,
+	stack = true,
+	close = true,
+	client = {
+		export = 'ejj_businesscard.businesscard'
+	},
+},
