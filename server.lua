@@ -1,22 +1,44 @@
-ESX = exports["es_extended"]:getSharedObject()
+lib.locale()
+
+local ESX = nil
+local QBCore = nil
+
+if GetResourceState('es_extended') == 'started' then
+    ESX = exports["es_extended"]:getSharedObject()
+end
+
+if GetResourceState('qb-core') == 'started' then
+    QBCore = exports['qb-core']:GetCoreObject()
+end
 
 RegisterNetEvent('ejj_businesscard:businesscardbestilling')
 AddEventHandler('ejj_businesscard:businesscardbestilling', function(frontImage, backImage, amount)
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayer = nil
     local item = 'money'  
-
     local cost = 250 * amount
+    local moneyItem, playerSource, inventoryId = nil, nil, nil
 
-    local moneyItem = xPlayer.getInventoryItem(item)
+    if ESX then
+        xPlayer = ESX.GetPlayerFromId(source)
+        playerSource = xPlayer.source
+        inventoryId = playerSource
+        moneyItem = xPlayer.getInventoryItem(item)
+    elseif QBCore then
+        xPlayer = QBCore.Functions.GetPlayer(source)
+        playerSource = xPlayer.PlayerData.source
+        inventoryId = playerSource
+        moneyItem = xPlayer.Functions.GetItemByName(item)
+    end
 
-    if moneyItem.count >= cost then
+    if moneyItem and moneyItem.count >= cost then
+        if ESX then
+            xPlayer.removeInventoryItem(item, cost)
+        elseif QBCore then
+            xPlayer.Functions.RemoveItem(item, cost)
+        end
 
-        xPlayer.removeInventoryItem(item, cost)
-
-        local inventoryId = xPlayer.source
         local item = 'businesscard' 
-        local count = amount 
-
+        local count = amount
         local ox_inventory = exports.ox_inventory
 
         local metadata = {
@@ -34,8 +56,7 @@ AddEventHandler('ejj_businesscard:businesscardbestilling', function(frontImage, 
                     type = 'success',
                     position = 'bottom'
                 }
-                TriggerClientEvent('ox_lib:notify', xPlayer.source, notificationData)
-
+                TriggerClientEvent('ox_lib:notify', playerSource, notificationData)
             else
                 print('Failed to add item. Response: ' .. response)
             end
@@ -47,6 +68,6 @@ AddEventHandler('ejj_businesscard:businesscardbestilling', function(frontImage, 
             type = 'error',
             position = 'bottom'
         }
-        TriggerClientEvent('ox_lib:notify', xPlayer.source, notificationData)
+        TriggerClientEvent('ox_lib:notify', playerSource, notificationData)
     end
 end)
